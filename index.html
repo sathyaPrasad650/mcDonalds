@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 80%;
+        margin: auto;
+      }
+      #orderID {
+        border: 2px solid red;
+        text-align: end;
+        padding-right: 20px;
+      }
+      .image {
+        height: 200px;
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <input
+      type="checkbox"
+      value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdqdeK-C0gOkhh9hATbX4Mw1cJi1Fe8ArOxg&usqp=CAU"
+      id="myCheck1"
+    />
+    <label for="">Burger</label>
+    <br />
+    <input
+      type="checkbox"
+      value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_Uh56kyq6GzFCotMEheNt5gd91wWsltufWlMml6xwV4yLUmnuR7xkq3pKB7-hNmKAf9k&usqp=CAU"
+      id="myCheck2"
+    />
+    <label for="">Drinks</label>
+    <br />
+    <input
+      type="checkbox"
+      value="https://i.ndtvimg.com/i/2015-05/pizza-generic_650x400_71431320175.jpg"
+      id="myCheck3"
+    />
+    <label for="">Drinks</label>
+    <br />
+    <button onclick="order()">Order Food</button>
+    <h3 id="orderID">orderID</h3>
+    <div id="container"></div>
+  </body>
+</html>
+
+<script>
+  function status() {
+    return true;
+  }
+
+  let orderId = 0;
+  let arr = [];
+
+  function order() {
+    for (let i = 1; i <= 3; i++) {
+      var checkBox = document.getElementById(`myCheck${i}`);
+      if (checkBox.checked == true) {
+        arr.push(checkBox.value);
+      }
+    }
+    console.log(arr);
+
+    //Promise
+    orderId++;
+
+    // let order = document.getElementById("order").value;
+
+    let myPromise = new Promise(function (resolve, reject) {
+      let s = status();
+
+      let time = 1000;
+      //   let time = Math.random() * 10000;
+      console.log(time);
+
+      if (s === true) {
+        setTimeout(function () {
+          resolve(order);
+        }, time);
+      } else {
+        reject("Sorry We can't deliver this item");
+      }
+    });
+
+    myPromise.then(function (res) {
+      console.log(`Your ${res} is ready ${orderId}`);
+
+      let div = document.querySelector("#container");
+
+      arr.forEach(function (ele, index) {
+        let image = document.createElement("img");
+        image.src = ele;
+        image.setAttribute("class", "image");
+
+        div.append(image);
+      });
+
+      let orderText = document.querySelector("#orderID");
+      orderText.innerText = orderId;
+    });
+  }
+
+  //   console.log("sathya");
+</script>
